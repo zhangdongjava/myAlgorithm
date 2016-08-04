@@ -179,6 +179,10 @@ public class DoublyLinked {
             return current.value;
         }
 
+        /**
+         * 插入当前迭代后面
+         * @param v
+         */
         public void insertAfter(Integer v){
             if(current==null)return;
             if(current==last){
@@ -192,6 +196,10 @@ public class DoublyLinked {
 
         }
 
+        /**
+         * 插入当前迭代前面
+         * @param v
+         */
         public void insertBefore(Integer v){
             if(current==null)return;
             if(current==first){
