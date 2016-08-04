@@ -45,6 +45,10 @@ public class LinkList {
         Link c = first;
         Link prev = null;
         while(c!=null){
+            if(c==first){
+                deleteFirst();
+                break;
+            }
             if(c.value == value){
                 prev.next = c.next;
             }
