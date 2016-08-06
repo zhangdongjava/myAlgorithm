@@ -39,8 +39,7 @@ public class Anagram {
     }
 
     public static void displayWord(){
-            System.out.print(++count+"\t"+Arrays.toString(arr));
-        System.out.println();
+            System.out.println(++count+"\t"+Arrays.toString(arr));
 
     }
 }
