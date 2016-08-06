@@ -12,7 +12,7 @@ public class Test {
         priority.put('-', 1);
         priority.put('*', 2);
         priority.put('/', 2);
-        String res = afterExpression("(1+2)+ 5-(6*1)+3");
+        String res = afterExpression("2+3*6");
         expression(res);
     }
 
