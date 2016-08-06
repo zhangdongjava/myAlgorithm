@@ -1,28 +1,40 @@
 package binaryTree;
 
-/**二叉树
+/**二叉树 小的在左边 大于等于在右边
  * Created by dell_2 on 2016/8/6.
  */
-public class BinaryTree<K> {
+public class BinaryTree<K,V> {
 
-    private Node<Entry<K,Integer>> root;
+    private Node<Entry<K,V>> root;
 
-    public Integer get(K key){
-        //TODO
+    public V get(K key){
+        Node<Entry<K,V>> c = root;
+        int khash = key.hashCode();
+        while(c!=null){
+            //c的key比他大 说明他实在c的左子节点那边
+            if(c.value.getHash()>khash){
+                c = c.left;
+            }else{
+                if(c.value.getKey().equals(key))
+                    return c.value.getValue();
+                c = c.right;
+            }
+        }
         return null;
     }
 
-    public void insert(K key,Integer value){
-        Entry<K,Integer> entry = new Entry<>(key,value);
-        Node<Entry<K,Integer>> node = new Node();
+    public void insert(K key,V value){
+        int khash = key.hashCode();
+        Entry<K,V> entry = new Entry<>(key,value);
+        Node<Entry<K,V>> node = new Node();
         node.value = entry;
         if(root==null){
             root = node;
         }else{
-            Node<Entry<K,Integer>> c = root;
+            Node<Entry<K,V>> c = root;
             while(c!=null){
-                //c的value比他大 说明他实在c的左子节点那边
-                if(c.value.getValue()>value){
+                //c的key比他大 说明他实在c的左子节点那边
+                if(c.value.getHash()>khash){
                     if(c.left==null){
                         c.left = node;
                         break;
@@ -42,17 +54,18 @@ public class BinaryTree<K> {
 
 
 
-    public void remove(Integer value){
-        Node<Entry<K,Integer>> c = root;
-        Node<Entry<K,Integer>> parent = null;
+    public void remove(K key){
+        int keyHash = key.hashCode();
+        Node<Entry<K,V>> c = root;
+        Node<Entry<K,V>> parent = null;
         Integer flag = 0;//1左 2 右
         while(c!=null){
-            //c的value比他大 说明他在c的左子节点那边
-            if(c.value.getValue()>value){
+            //c的key比他大 说明他在c的左子节点那边
+            if(c.value.getHash()>keyHash){
                 parent = c;
                 c = c.left;
                 flag = 1;
-            }else if(c.value.getValue()==value){
+            }else if(c.value.getHash()==keyHash){
                 remove(parent,c,flag);
                 break;
             }else{
