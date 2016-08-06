@@ -43,6 +43,7 @@ public class Entry<K,V> implements Comparable{
         return "{" +
                 "key=" + key +
                 ", value=" + value +
+                ", hash=" + hash +
                 '}';
     }
 

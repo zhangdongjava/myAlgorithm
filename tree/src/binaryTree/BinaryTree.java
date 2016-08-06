@@ -1,5 +1,7 @@
 package binaryTree;
 
+import java.util.*;
+
 /**二叉树 小的在左边 大于等于在右边
  * Created by dell_2 on 2016/8/6.
  */
@@ -166,15 +168,23 @@ public class BinaryTree<E extends Comparable> {
     }
 
 
-    public void display(){
-        display(root,0);
+    public Set<E> toSet(){
+        Set<E> s = new HashSet<>();
+        toSet(root,0,s);
+        return s;
     }
 
-    public void display(Node node,int lev){
+    public List<E> toList(){
+        List<E> s = new LinkedList<>();
+        toSet(root,0,s);
+        return s;
+    }
+
+    public void toSet(Node<E> node,int lev,Collection<E> set){
         lev ++;
         if(node ==null)return;
-        display(node.left,lev);
-        System.out.println(lev+":"+node.value);
-        display(node.right,lev);
+        toSet(node.left,lev,set);
+        set.add(node.value);
+        toSet(node.right,lev,set);
     }
 }
