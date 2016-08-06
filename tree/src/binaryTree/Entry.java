@@ -9,18 +9,26 @@ public class Entry<K,V> {
     private K key;
     private V value;
 
-    public Entry( K key,V value) {
+    private int hash;
+
+    public int getHash() {
+        return hash;
+    }
+
+    public void setHash(int hash) {
+        this.hash = hash;
+    }
+
+    public Entry(K key, V value) {
         this.value = value;
         this.key = key;
+        this.hash = key.hashCode();
     }
 
     public K getKey() {
         return key;
     }
 
-    public void setKey(K key) {
-        this.key = key;
-    }
 
     public V getValue() {
         return value;
