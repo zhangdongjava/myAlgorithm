@@ -13,8 +13,7 @@ public class TreeTest {
         bt.insert("5",5);
         bt.insert("2",2);
         bt.insert("10",10);
-        bt.insert("8",8);
-        bt.remove(2);
+        bt.remove(8);
         bt.display();
     }
 }

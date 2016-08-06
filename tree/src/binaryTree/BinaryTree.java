@@ -117,7 +117,7 @@ public class BinaryTree<K> {
      * @param flag
      */
     private void deleteTwoChildNode(Node parent,Node c,Integer flag){
-        //获取要删除节点唯一的子节点
+        //获取要删除节点的后继节点
        Node successor =  getSuccessor(c);
         if(parent==null){//当前节点是root节点
             root = successor;
