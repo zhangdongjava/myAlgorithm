@@ -15,7 +15,7 @@ public class TreeMap<K, V> {
         if (n != null) {//存在改变值
             n.value.setValue(val);
         } else {
-            b.insert(e);
+            b.add(e);
         }
 
         return this;

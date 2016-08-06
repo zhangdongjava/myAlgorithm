@@ -3,11 +3,14 @@ package binaryTree;
 import java.util.*;
 
 /**二叉树 小的在左边 大于等于在右边
+ * 链表表示
  * Created by dell_2 on 2016/8/6.
  */
-public class BinaryTree<E extends Comparable> {
+public class BinaryTree<E extends Comparable> extends AbstractSet<E> {
 
     private Node<E> root;
+
+    private int size;
 
     public Node<E> get(Object key){
         Node<E> c = root;
@@ -26,7 +29,7 @@ public class BinaryTree<E extends Comparable> {
 
 
 
-    public void insert(E e){
+    public boolean add(E e){
         Node<E> node = new Node();
         node.value = e;
         if(root==null){
@@ -50,11 +53,15 @@ public class BinaryTree<E extends Comparable> {
                 }
             }
         }
+        size++;
+        return true;
     }
 
 
-
-
+    /**
+     * 删除一个节点
+     * @param e
+     */
     public void remove(E e){
         Node<E> c = root;
         Node<E> parent = null;
@@ -67,6 +74,7 @@ public class BinaryTree<E extends Comparable> {
                 flag = 1;
             }else if(c.value.compareTo(e)==0){
                 remove(parent,c,flag);
+                size --;
                 break;
             }else{
                 parent = c;
@@ -77,7 +85,12 @@ public class BinaryTree<E extends Comparable> {
     }
 
 
-
+    /**
+     * 删除一个节点
+     * @param parent 删除节点父节点
+     * @param c 删除的节点
+     * @param flag 删除节点在父节的位置 1 左 2 右
+     */
     private void remove(Node parent, Node c,Integer flag){
         if(c.left==null && c.right ==null){
             deleteNoChildNode(parent,flag);
@@ -167,13 +180,20 @@ public class BinaryTree<E extends Comparable> {
         return successor;
     }
 
-
+    /**
+     * 转set集合
+     * @return
+     */
     public Set<E> toSet(){
         Set<E> s = new HashSet<>();
         toSet(root,0,s);
         return s;
     }
 
+    /**
+     * 转list结集合
+     * @return
+     */
     public List<E> toList(){
         List<E> s = new LinkedList<>();
         toSet(root,0,s);
@@ -186,5 +206,43 @@ public class BinaryTree<E extends Comparable> {
         toSet(node.left,lev,set);
         set.add(node.value);
         toSet(node.right,lev,set);
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new MyIterator();
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+
+
+    private class MyIterator implements Iterator<E>{
+
+        private LinkedList linkedList = (LinkedList) toList();
+
+        Iterator<E> it = linkedList.iterator();
+
+        private E curr = null;
+
+        @Override
+        public boolean hasNext() {
+            return it.hasNext();
+        }
+
+        @Override
+        public E next() {
+            curr = it.next();
+            return curr;
+        }
+
+        @Override
+        public void remove() {
+            it.remove();
+            BinaryTree.this.remove(curr);
+        }
     }
 }
