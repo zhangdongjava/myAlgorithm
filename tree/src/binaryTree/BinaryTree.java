@@ -3,38 +3,37 @@ package binaryTree;
 /**二叉树 小的在左边 大于等于在右边
  * Created by dell_2 on 2016/8/6.
  */
-public class BinaryTree<K,V> {
+public class BinaryTree<E extends Comparable> {
 
-    private Node<Entry<K,V>> root;
+    private Node<E> root;
 
-    public V get(K key){
-        Node<Entry<K,V>> c = root;
-        int khash = key.hashCode();
+    public Node<E> get(Object key){
+        Node<E> c = root;
         while(c!=null){
             //c的key比他大 说明他实在c的左子节点那边
-            if(c.value.getHash()>khash){
+            if(c.value.compareTo(key)>0){
                 c = c.left;
             }else{
-                if(c.value.getKey().equals(key))
-                    return c.value.getValue();
+                if(c.value.compareTo(key)==0)
+                    return c;
                 c = c.right;
             }
         }
         return null;
     }
 
-    public void insert(K key,V value){
-        int khash = key.hashCode();
-        Entry<K,V> entry = new Entry<>(key,value);
-        Node<Entry<K,V>> node = new Node();
-        node.value = entry;
+
+
+    public void insert(E e){
+        Node<E> node = new Node();
+        node.value = e;
         if(root==null){
             root = node;
         }else{
-            Node<Entry<K,V>> c = root;
+            Node<E> c = root;
             while(c!=null){
                 //c的key比他大 说明他实在c的左子节点那边
-                if(c.value.getHash()>khash){
+                if(c.value.compareTo(e)>0){
                     if(c.left==null){
                         c.left = node;
                         break;
@@ -54,18 +53,17 @@ public class BinaryTree<K,V> {
 
 
 
-    public void remove(K key){
-        int keyHash = key.hashCode();
-        Node<Entry<K,V>> c = root;
-        Node<Entry<K,V>> parent = null;
+    public void remove(E e){
+        Node<E> c = root;
+        Node<E> parent = null;
         Integer flag = 0;//1左 2 右
         while(c!=null){
             //c的key比他大 说明他在c的左子节点那边
-            if(c.value.getHash()>keyHash){
+            if(c.value.compareTo(e)>0){
                 parent = c;
                 c = c.left;
                 flag = 1;
-            }else if(c.value.getHash()==keyHash){
+            }else if(c.value.compareTo(e)==0){
                 remove(parent,c,flag);
                 break;
             }else{
