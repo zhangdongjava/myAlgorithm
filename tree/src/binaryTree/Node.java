@@ -4,7 +4,7 @@ package binaryTree;
  *二叉树节点
  * Created by dell_2 on 2016/8/6.
  */
-public class Node<N> {
+public class Node<N extends  Comparable> {
 
     public N value;
     public Node left;//左子节点

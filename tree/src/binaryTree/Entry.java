@@ -4,7 +4,7 @@ package binaryTree;
  * 一个节点存储对象
  * Created by dell_2 on 2016/8/6.
  */
-public class Entry<K,V> {
+public class Entry<K,V> implements Comparable{
 
     private K key;
     private V value;
@@ -44,5 +44,14 @@ public class Entry<K,V> {
                 "key=" + key +
                 ", value=" + value +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(!(o instanceof Entry)){
+            throw new RuntimeException(o.getClass() +"not instanceof" +Entry.class );
+        }
+        Entry en = (Entry) o;
+        return this.hash - en.hash;
     }
 }
