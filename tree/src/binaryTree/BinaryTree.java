@@ -39,6 +39,9 @@ public class BinaryTree<K> {
         }
     }
 
+
+
+
     public void remove(Integer value){
         Node<Entry<K,Integer>> c = root;
         Node<Entry<K,Integer>> parent = null;
@@ -60,13 +63,20 @@ public class BinaryTree<K> {
         }
     }
 
+
+
     private void remove(Node parent, Node c,Integer flag){
         if(c.left==null && c.right ==null){
             deleteNoChildNode(parent,flag);
         }else if(c.left==null || c.right ==null){
             deleteOneChildNode(parent,c,flag);
+        }else{
+            deleteTwoChildNode(parent,c,flag);
         }
     }
+
+
+
 
     /**
      * 删除没有子节点的节点
@@ -100,6 +110,48 @@ public class BinaryTree<K> {
         }
 
     }
+
+    /**
+     * 删除二个子节点的节点
+     * @param parent
+     * @param flag
+     */
+    private void deleteTwoChildNode(Node parent,Node c,Integer flag){
+        //获取要删除节点唯一的子节点
+       Node successor =  getSuccessor(c);
+        if(parent==null){//当前节点是root节点
+            root = successor;
+        }else if(flag==1){//当前节点在父节点左边
+            parent.left = successor;
+        }else if(flag==2){//当前节点在父节点右边边
+            parent.right = successor;
+        }
+        successor.left = c.left;
+    }
+
+    /**
+     * 寻找后继节点 就是比curr大的最小节点
+     * @param curr
+     * @return
+     */
+    private Node getSuccessor(Node curr){
+        Node c  = curr.right;
+        Node successor = curr.right;
+        Node parent = curr;
+        while(c!=null){
+            parent = successor;
+            successor = c;
+            c = c.left;
+        }
+
+        if(successor != curr.right){
+            parent.left =   successor.right;
+            successor.right = curr.right;
+        }
+
+        return successor;
+    }
+
 
     public void display(){
         display(root,0);
