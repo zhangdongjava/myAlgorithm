@@ -143,7 +143,9 @@ public class BinaryTree<K> {
             successor = c;
             c = c.left;
         }
-
+        //后继节点不是删除节点的右节点 需要安排好后继节点的右子节点(就是放到后继节点父节点的左边)
+        //安排好删除节点的右边节点( 删除节点的右就是后继节点的右)
+        //删除节点左边后面安排
         if(successor != curr.right){
             parent.left =   successor.right;
             successor.right = curr.right;
