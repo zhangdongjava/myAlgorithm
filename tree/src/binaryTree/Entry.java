@@ -9,6 +9,11 @@ public class Entry<K,V> {
     private K key;
     private V value;
 
+    public Entry( K key,V value) {
+        this.value = value;
+        this.key = key;
+    }
+
     public K getKey() {
         return key;
     }
@@ -23,5 +28,13 @@ public class Entry<K,V> {
 
     public void setValue(V value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "key=" + key +
+                ", value=" + value +
+                '}';
     }
 }
