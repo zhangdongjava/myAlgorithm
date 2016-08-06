@@ -4,7 +4,7 @@ package binaryTree;
  * 一个节点存储对象
  * Created by dell_2 on 2016/8/6.
  */
-public class Ent<K,V> {
+public class Entry<K,V> {
 
     private K key;
     private V value;
