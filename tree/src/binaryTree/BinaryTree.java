@@ -6,11 +6,18 @@ import java.util.*;
  * 链表表示
  * Created by dell_2 on 2016/8/6.
  */
-public class BinaryTree<E extends Comparable> extends AbstractSet<E> {
+public class BinaryTree<E extends Comparable> {
 
     private Node<E> root;
 
-    private int size;
+    /**
+     * 值长度
+     */
+    private Integer valueLen = 12;
+    /**
+     * 节点连线2行间的x距离
+     */
+    private Integer lineSpace = valueLen>>2;
 
     public Node<E> get(Object key){
         Node<E> c = root;
@@ -53,7 +60,6 @@ public class BinaryTree<E extends Comparable> extends AbstractSet<E> {
                 }
             }
         }
-        size++;
         return true;
     }
 
@@ -74,7 +80,6 @@ public class BinaryTree<E extends Comparable> extends AbstractSet<E> {
                 flag = 1;
             }else if(c.value.compareTo(e)==0){
                 remove(parent,c,flag);
-                size --;
                 break;
             }else{
                 parent = c;
@@ -180,15 +185,6 @@ public class BinaryTree<E extends Comparable> extends AbstractSet<E> {
         return successor;
     }
 
-    /**
-     * 转set集合
-     * @return
-     */
-    public Set<E> toSet(){
-        Set<E> s = new HashSet<>();
-        toSet(root,0,s);
-        return s;
-    }
 
     /**
      * 转list结集合
@@ -196,53 +192,134 @@ public class BinaryTree<E extends Comparable> extends AbstractSet<E> {
      */
     public List<E> toList(){
         List<E> s = new LinkedList<>();
-        toSet(root,0,s);
+        toCollection(root,0,s);
         return s;
     }
 
-    public void toSet(Node<E> node,int lev,Collection<E> set){
+    public void toCollection(Node<E> node,int lev,Collection<E> set){
         lev ++;
         if(node ==null)return;
-        toSet(node.left,lev,set);
+        toCollection(node.left,lev,set);
         set.add(node.value);
-        toSet(node.right,lev,set);
+        toCollection(node.right,lev,set);
     }
 
-    @Override
-    public Iterator iterator() {
-        return new MyIterator();
+    private int minX=0;
+    private int minY=0;
+    private int maxX=0;
+    private int maxY=0;
+    private Map<String,Object> map = new HashMap<>();
+    /**
+     * 打印树结构
+     * @return
+     */
+    public void disPlay(){
+        lv(root,0,0);
+        printMap();
     }
 
-    @Override
-    public int size() {
-        return 0;
+
+    /**
+     * 打印构建的map
+     */
+    private void printMap(){
+        for (int y = maxY ; y >= minY; y--) {
+            Set<Integer> currLine = new HashSet<>();
+            Map<String,Boolean> m = new HashMap<>();
+            for (int x = minX; x <= maxX; x++) {
+                String key = x+","+y;
+                Object v = map.get(key);
+                if(map.containsKey(key+"left")){
+                    currLine.add(x);
+                    m.put(x+"left",true);
+                }
+                if(map.containsKey(key+"right")){
+                    currLine.add(x);
+                    m.put(x+"right",true);
+                }
+                if(v==null)v=" ";
+                v =  buildValueLen(v.toString());
+                System.out.print(v);
+            }
+            System.out.println();
+            StringBuffer line1 = getLine(maxX-minX+1);
+            StringBuffer line2 = getLine(maxX-minX+1);
+            StringBuffer line3 = getLine(maxX-minX+1);
+            for (Integer x : currLine) {
+                if(m.containsKey(x+"left")){
+                    line1.setCharAt((x-minX)*valueLen-lineSpace,'*');
+                    line2.setCharAt((x-minX)*valueLen-lineSpace-lineSpace,'*');
+                    line3.setCharAt((x-minX)*valueLen-lineSpace-lineSpace-lineSpace,'*');
+                }
+                if(m.containsKey(x+"right")){
+                    line1.setCharAt((x-minX)*valueLen+lineSpace,'*');
+                    line2.setCharAt((x-minX)*valueLen+lineSpace+lineSpace,'*');
+                    line3.setCharAt((x-minX)*valueLen+lineSpace+lineSpace+lineSpace,'*');
+                }
+
+            }
+            System.out.println(line1.toString());
+            System.out.println(line2.toString());
+            System.out.println(line3.toString());
+
+        }
     }
 
+    private String buildValueLen(String val){
+        StringBuffer buffer = new StringBuffer(val);
+        int len = val.length();
+        for (; len < valueLen; len++) {
+            buffer.append(" ");
 
-
-    private class MyIterator implements Iterator<E>{
-
-        private LinkedList linkedList = (LinkedList) toList();
-
-        Iterator<E> it = linkedList.iterator();
-
-        private E curr = null;
-
-        @Override
-        public boolean hasNext() {
-            return it.hasNext();
         }
+        return buffer.toString();
+    }
 
-        @Override
-        public E next() {
-            curr = it.next();
-            return curr;
-        }
+    private StringBuffer getLine(int len){
+        StringBuffer line1 = new StringBuffer("");
+        for (int i = 0; i < len*valueLen; i++) {
+            line1.append(" ");
 
-        @Override
-        public void remove() {
-            it.remove();
-            BinaryTree.this.remove(curr);
         }
+        return line1;
+    }
+
+    /**
+     * 计算节点的xy
+     * @param node 当前节点
+     * @param x 当前节点的x轴
+     * @param y 当前节点 y轴
+     */
+    private void lv(Node<E> node,int x,int y){
+        if(minX>x)minX = x;
+        if(maxX<x)maxX = x;
+        if(minY>y)minY = y;
+        if(maxY<y)maxY = y;
+        if(node ==null)return;
+        if(node.left!=null){
+            map.put(x+","+y+"left",true);
+        }
+        if(node.right!=null){
+            map.put(x+","+y+"right",true);
+        }
+        lv(node.left,x-1,y-1);
+        map.put(x+","+y,node.value);
+        lv(node.right,x+1,y-1);
+    }
+
+    public static void main(String[] args) {
+        BinaryTree<Integer> br = new BinaryTree<>();
+        br.add(511);
+        br.add(532);
+        br.add(5432);
+        br.add(545);
+        br.add(6);
+        br.add(2534);
+        br.add(4543);
+        br.add(1);
+        br.add(7543);
+        br.add(3);
+        br.add(9);
+        br.disPlay();
     }
 }

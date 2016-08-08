@@ -32,7 +32,5 @@ public class TreeMap<K, V> {
         b.remove(e);
     }
 
-    public Set<Entry<K, V>> entrySet() {
-        return b.toSet();
-    }
+
 }
