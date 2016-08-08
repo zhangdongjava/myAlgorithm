@@ -211,16 +211,18 @@ public class BinaryTree<E extends Comparable> {
     private Map<String,Object> map = new HashMap<>();
     /**
      * 打印树结构
+     *  采用坐标方法 先构建出map
      * @return
      */
     public void disPlay(){
-        lv(root,0,0);
+        buildMap(root,0,0);
         printMap();
     }
 
 
     /**
      * 打印构建的map
+     *
      */
     private void printMap(){
         for (int y = maxY ; y >= minY; y--) {
@@ -290,7 +292,7 @@ public class BinaryTree<E extends Comparable> {
      * @param x 当前节点的x轴
      * @param y 当前节点 y轴
      */
-    private void lv(Node<E> node,int x,int y){
+    private void buildMap(Node<E> node,int x,int y){
         if(minX>x)minX = x;
         if(maxX<x)maxX = x;
         if(minY>y)minY = y;
@@ -302,9 +304,9 @@ public class BinaryTree<E extends Comparable> {
         if(node.right!=null){
             map.put(x+","+y+"right",true);
         }
-        lv(node.left,x-1,y-1);
+        buildMap(node.left,x-1,y-1);
         map.put(x+","+y,node.value);
-        lv(node.right,x+1,y-1);
+        buildMap(node.right,x+1,y-1);
     }
 
     public static void main(String[] args) {
