@@ -13,7 +13,7 @@ public class BinaryTree<E extends Comparable> {
     /**
      * 值长度
      */
-    private Integer valueLen = 12;
+    private Integer valueLen = 4;
     /**
      * 节点连线2行间的x距离
      */
@@ -48,12 +48,16 @@ public class BinaryTree<E extends Comparable> {
                 if(c.value.compareTo(e)>0){
                     if(c.left==null){
                         c.left = node;
+                        node.parent =c;
+                        node.isLeft=true;
                         break;
                     }
                     c = c.left;
                 }else{
                     if(c.right==null){
                         c.right = node;
+                        node.parent =c;
+                        node.isLeft=false;
                         break;
                     }
                     c = c.right;
@@ -310,6 +314,8 @@ public class BinaryTree<E extends Comparable> {
     }
 
     public static void main(String[] args) {
+        double a= 0.0/0.0;
+        System.out.println(a==a);
         BinaryTree<Integer> br = new BinaryTree<>();
         br.add(511);
         br.add(532);

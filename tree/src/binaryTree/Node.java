@@ -9,7 +9,8 @@ public class Node<N extends  Comparable> {
     public N value;
     public Node left;//左子节点
     public Node right;//右子节点
-
+    public Node parent;
+    public boolean isLeft = false;
 
     @Override
     public String toString() {
