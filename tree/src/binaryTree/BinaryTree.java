@@ -49,7 +49,6 @@ public class BinaryTree<E extends Comparable> {
                     if(c.left==null){
                         c.left = node;
                         node.parent =c;
-                        node.isLeft=true;
                         break;
                     }
                     c = c.left;
@@ -57,7 +56,6 @@ public class BinaryTree<E extends Comparable> {
                     if(c.right==null){
                         c.right = node;
                         node.parent =c;
-                        node.isLeft=false;
                         break;
                     }
                     c = c.right;

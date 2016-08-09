@@ -49,7 +49,6 @@ public class RbTree<E extends Comparable> {
                     if (c.left == null) {
                         c.left = node;
                         node.parent = c;
-                        node.isLeft = true;
                         break;
                     }
                     c = c.left;
@@ -57,7 +56,6 @@ public class RbTree<E extends Comparable> {
                     if (c.right == null) {
                         c.right = node;
                         node.parent = c;
-                        node.isLeft = false;
                         break;
                     }
                     c = c.right;
@@ -356,7 +354,7 @@ public class RbTree<E extends Comparable> {
         Node<E> curr = getNode(e);
         if (curr == null) return;
         Node<E> parent = curr.parent;
-        boolean isLeft = curr.isLeft;
+        boolean isLeft = parent==null?false:parent.left==curr;
         Node<E> right = curr.right;
         if (right == null)
             return;
@@ -365,21 +363,17 @@ public class RbTree<E extends Comparable> {
         } else {
             if (isLeft) {
                 parent.left = right;
-                right.isLeft = true;
             } else {
                 parent.right = right;
-                right.isLeft = false;
             }
         }
         right.parent = parent;
         curr.right = right.left;
         if(right.left != null){
-            right.left.isLeft = false;
             right.left.parent = curr;
         }
 
         right.left = curr;
-        curr.isLeft = true;
         curr.parent = right;
     }
 
@@ -392,7 +386,7 @@ public class RbTree<E extends Comparable> {
         Node<E> curr = getNode(e);
         if (curr == null) return;
         Node<E> parent = curr.parent;
-        boolean isLeft = curr.isLeft;
+        boolean isLeft = parent==null?false:parent.left==curr;
         Node<E> left = curr.left;
         if (left == null)
             return;
@@ -401,21 +395,17 @@ public class RbTree<E extends Comparable> {
         } else {
             if (isLeft) {
                 parent.left = left;
-                left.isLeft = true;
             } else {
                 parent.right = left;
-                left.isLeft = false;
             }
         }
         left.parent = parent;
         curr.left = left.right;
         if(left.right!=null){
             left.right.parent = curr;
-            left.right.isLeft = true;
         }
 
         left.right = curr;
-        curr.isLeft = false;
         curr.parent = left;
     }
 
